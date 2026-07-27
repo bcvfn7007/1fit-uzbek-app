@@ -51,38 +51,38 @@ export const SuccessScreen: React.FC<SuccessScreenProps> = ({
       <div className="success-top-profile">
         <div className="avatar-wrapper">
           <img
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300"
-            alt="user avatar"
+            src={user.avatarUrl}
+            alt={user.name}
             className="avatar-img"
           />
         </div>
-        <h2 className="username-text">aziz.magnat</h2>
+        <h2 className="username-text">@{user.handle}</h2>
       </div>
 
-      {/* Confirmation Card with Green Banner (Exact match to Image 5) */}
+      {/* Confirmation Card with Green Banner (Dynamic details from selected session) */}
       <div className="success-card">
         <div className="success-card-badge">
-          Tashrif tasdiqlandi
+          {t.visitConfirmed}
         </div>
         <div className="success-card-body">
           <div className="success-date-row">
-            <span className="success-date-text">24-iyul, 20:00</span>
-            <span className="success-duration-text">120 min</span>
+            <span className="success-date-text">{session.dateStr}, {session.timeStr}</span>
+            <span className="success-duration-text">{session.durationMinutes} min</span>
           </div>
 
-          <h3 className="success-workout-title">Свободное плавание</h3>
-          <p className="success-gym-subtitle">Afrosiyob Hotel</p>
+          <h3 className="success-workout-title">{session.title}</h3>
+          <p className="success-gym-subtitle">{session.gymName}</p>
         </div>
       </div>
 
       {/* Speech Bubble Message with Left Tail (Exact text match to Image 5) */}
       <div className="speech-bubble">
-        {"Qanchalik zo'r shug'ullansangiz, shunchalik zo'r dam olasiz. Sizni ko'rganimizdan xursandmiz! Zo'r mashg'ulot tilaymiz ⚡"}
+        {t.motivationQuote}
       </div>
 
       {/* Super Button (Exact match to Image 5) */}
       <button className="super-btn" onClick={onFinish}>
-        Super
+        {t.superBtn}
       </button>
     </div>
   );
