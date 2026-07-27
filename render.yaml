@@ -2,7 +2,7 @@ services:
   - type: web
     name: 1fit-uzbek-app
     env: static
-    buildCommand: npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: ./dist
     routes:
       - type: rewrite
