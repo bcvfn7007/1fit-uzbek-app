@@ -16,7 +16,9 @@
     "android": {
       "package": "com.onefit.uzbekistan",
       "permissions": [
-        "CAMERA"
+        "CAMERA",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "plugins": [
@@ -26,6 +28,11 @@
           "cameraPermission": "Mashg'ulotni tasdiqlash uchun QR-kodni skanerlash va Yuz verifikatsiyasidan o'tish uchun kamera ruxsati kerak."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "4f7b1d4d-b83c-40e7-a259-da98104f8730"
+      }
+    }
   }
 }
