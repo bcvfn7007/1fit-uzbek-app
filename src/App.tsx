@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './index.css';
 import { Language, ScreenTab, WorkoutSession, UserProfile, NotificationItem, HistoryItem } from './types';
 import { Header } from './components/Header';
 import { TabBar } from './components/TabBar';
