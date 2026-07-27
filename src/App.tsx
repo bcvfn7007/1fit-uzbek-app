@@ -21,39 +21,94 @@ export const App: React.FC = () => {
   const [flowModal, setFlowModal] = useState<'none' | 'qr_scanner' | 'face_verify' | 'success' | 'notifications' | 'history' | 'help'>('none');
   const [isMobileFrameView, setIsMobileFrameView] = useState<boolean>(true);
 
-  // User Profile matching Screenshot 5 handle: @aziz.magnat
+  // User Profile matching screenshot 5
   const [user] = useState<UserProfile>({
     name: 'Azizbek Magnatov',
     handle: 'aziz.magnat',
-    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300',
+    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300',
     isPro: true,
     activePlanName: '1FIT Unlimited PRO Pass',
     remainingVisits: 28
   });
 
-  // Booked Workout Session (Matching Image 5: 24-iyul, 20:00 • 120 min, Свободное плавание, Afrosiyob Hotel)
-  const [workoutSession, setWorkoutSession] = useState<WorkoutSession>({
-    id: 'session-1fit-8924',
-    title: 'Свободное плавание',
-    gymName: 'Afrosiyob Hotel',
-    gymAddress: 'Toshkent sh., Afrosiyob ko\'chasi 12A',
-    gymRating: 4.9,
-    distance: '1.2 km',
-    dateStr: '24-iyul',
-    timeStr: '20:00',
-    durationMinutes: 120,
-    genderRestriction: 'Faqat erkaklar uchun',
-    isConfirmed: false,
-    mapCoordinates: { lat: 41.3111, lng: 69.2797 },
-    bannerImage: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=600'
-  });
+  // Multiple 1FIT Workout Sessions across different gyms
+  const [workoutSessions, setWorkoutSessions] = useState<WorkoutSession[]>([
+    {
+      id: 'session-1',
+      title: 'Свободное плавание',
+      category: 'suzish',
+      gymName: 'Afrosiyob Hotel',
+      gymAddress: 'Toshkent sh., Afrosiyob ko\'chasi 12A',
+      gymRating: 4.9,
+      distance: '1.2 km',
+      dateStr: '24-iyul',
+      timeStr: '20:00',
+      durationMinutes: 120,
+      genderRestriction: 'Faqat erkaklar uchun',
+      isConfirmed: false,
+      mapCoordinates: { lat: 41.3111, lng: 69.2797 },
+      bannerImage: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=600'
+    },
+    {
+      id: 'session-2',
+      title: 'CrossFit Power & Conditioning',
+      category: 'crossfit',
+      gymName: 'BeFit Premium',
+      gymAddress: 'Toshkent sh., Amir Temur shoh ko\'chasi 45',
+      gymRating: 4.9,
+      distance: '2.1 km',
+      dateStr: '25-iyul',
+      timeStr: '18:30',
+      durationMinutes: 60,
+      genderRestriction: 'Aralash guruhi',
+      isConfirmed: false,
+      mapCoordinates: { lat: 41.3211, lng: 69.2897 },
+      bannerImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600'
+    },
+    {
+      id: 'session-3',
+      title: 'Yoga & Pilates Relax',
+      category: 'yoga',
+      gymName: 'Chekhov Sport Club',
+      gymAddress: 'Toshkent sh., Chekhov ko\'chasi 8',
+      gymRating: 4.8,
+      distance: '3.4 km',
+      dateStr: '26-iyul',
+      timeStr: '10:00',
+      durationMinutes: 90,
+      genderRestriction: 'Faqat ayollar uchun',
+      isConfirmed: false,
+      mapCoordinates: { lat: 41.3011, lng: 69.2697 },
+      bannerImage: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600'
+    },
+    {
+      id: 'session-4',
+      title: 'Boks & Kikboksing Training',
+      category: 'boks',
+      gymName: 'Buka Gym Tashkent',
+      gymAddress: 'Toshkent sh., Oybek ko\'chasi 24',
+      gymRating: 4.9,
+      distance: '1.8 km',
+      dateStr: '27-iyul',
+      timeStr: '19:00',
+      durationMinutes: 75,
+      genderRestriction: 'Aralash guruhi',
+      isConfirmed: false,
+      mapCoordinates: { lat: 41.3055, lng: 69.2755 },
+      bannerImage: 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=600'
+    }
+  ]);
+
+  const [activeSessionId, setActiveSessionId] = useState<string>('session-1');
+
+  const currentSession = workoutSessions.find((s) => s.id === activeSessionId) || workoutSessions[0];
 
   // Notifications
   const [notifications] = useState<NotificationItem[]>([
     {
       id: 'n1',
       title: 'Mashg\'ulotga 30 daqiqa qoldi!',
-      message: 'Afrosiyob Hotel zalida "Свободное плавание" mashg\'ulotini tasdiqlashni unutmang.',
+      message: `${currentSession.gymName} zalida "${currentSession.title}" mashg'ulotini tasdiqlashni unutmang.`,
       time: '19:30',
       read: false,
       type: 'reminder'
@@ -88,8 +143,9 @@ export const App: React.FC = () => {
     }
   ]);
 
-  // Handlers for state transition flows
-  const handleStartCheckin = () => {
+  // Handlers
+  const handleStartCheckin = (session: WorkoutSession) => {
+    setActiveSessionId(session.id);
     setFlowModal('qr_scanner');
   };
 
@@ -102,13 +158,15 @@ export const App: React.FC = () => {
   };
 
   const handleCompleteFlow = () => {
-    setWorkoutSession((prev) => ({ ...prev, isConfirmed: true }));
+    setWorkoutSessions((prev) =>
+      prev.map((s) => (s.id === activeSessionId ? { ...s, isConfirmed: true } : s))
+    );
     setFlowModal('none');
   };
 
   return (
     <div style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      {/* Optional Top Viewport Switcher Banner for Desktop Testing */}
+      {/* Viewport Mode Switcher */}
       <div style={{
         position: 'fixed',
         top: 12,
@@ -150,18 +208,18 @@ export const App: React.FC = () => {
         </button>
       </div>
 
-      {/* Main App Container */}
+      {/* Main App Shell */}
       <div className={`app-wrapper ${!isMobileFrameView ? 'full-window' : ''}`} style={!isMobileFrameView ? { maxWidth: '100%', height: '100vh', maxHeight: '100vh', borderRadius: 0 } : {}}>
         {/* Device Status Bar */}
         <div className="status-bar">
           <span>19:57</span>
           <div className="status-bar-icons">
             <span style={{ fontSize: 11, letterSpacing: 0.5 }}>VoLTE 4G+</span>
-            <span style={{ fontSize: 11, background: '#22c55e', color: '#000', padding: '1px 5px', borderRadius: 6, fontWeight: 800 }}>97</span>
+            <span className="battery-pill">97</span>
           </div>
         </div>
 
-        {/* Main Screen Container */}
+        {/* Screen Content Container */}
         <div className="screen-container">
           <Header
             lang={lang}
@@ -174,7 +232,9 @@ export const App: React.FC = () => {
           {/* Tab Views */}
           {activeTab === 'schedule' && (
             <ScheduleScreen
-              session={workoutSession}
+              sessions={workoutSessions}
+              activeSessionId={activeSessionId}
+              onSelectSession={setActiveSessionId}
               lang={lang}
               onStartCheckin={handleStartCheckin}
             />
@@ -220,7 +280,7 @@ export const App: React.FC = () => {
 
         {flowModal === 'success' && (
           <SuccessScreen
-            session={workoutSession}
+            session={currentSession}
             user={user}
             lang={lang}
             onFinish={handleCompleteFlow}

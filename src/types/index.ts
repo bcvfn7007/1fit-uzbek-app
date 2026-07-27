@@ -7,6 +7,7 @@ export type FlowModal = 'none' | 'qr_scanner' | 'face_verify' | 'success' | 'not
 export interface WorkoutSession {
   id: string;
   title: string;
+  category: 'suzish' | 'fitnes' | 'yoga' | 'boks' | 'crossfit' | 'spa';
   gymName: string;
   gymAddress: string;
   gymRating: number;
