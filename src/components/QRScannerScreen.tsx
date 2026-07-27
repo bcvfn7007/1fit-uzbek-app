@@ -53,7 +53,7 @@ export const QRScannerScreen: React.FC<QRScannerScreenProps> = ({
     setFacingMode((prev) => (prev === 'environment' ? 'user' : 'environment'));
   };
 
-  // Handle QR code detection trigger (Spec 3: 100ms bright white flash then auto-transition to Face ID)
+  // Spec: Trigger white border flash (~100ms) on QR code detection and auto-navigate
   const handleTriggerDetection = () => {
     if (isDetected) return;
     setIsDetected(true);
@@ -96,7 +96,7 @@ export const QRScannerScreen: React.FC<QRScannerScreenProps> = ({
         {"QR kodini skanerlang\nva mashg'ulotni tasdiqlang"}
       </div>
 
-      {/* Lavender Rounded Square Scanner Frame with Flash on Detection (Spec 3) */}
+      {/* Lavender Rounded Square Scanner Frame with Flash on Detection */}
       <div className="qr-frame-wrapper" onClick={handleTriggerDetection} style={{ cursor: 'pointer' }}>
         <div className={`qr-frame-border ${isDetected ? 'detected-flash' : ''}`}>
           <div className="qr-laser-line" />

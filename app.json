@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "1FIT Uzbekistan",
+    "slug": "1fit-uzbek-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#070913"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.onefit.uzbekistan",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Mashg'ulotni tasdiqlash uchun QR-kodni skanerlash va Yuz verifikatsiyasidan o'tish uchun kamera ruxsati kerak."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#070913"
+      },
+      "package": "com.onefit.uzbekistan",
+      "permissions": [
+        "CAMERA"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Mashg'ulotni tasdiqlash uchun QR-kodni skanerlash va Yuz verifikatsiyasidan o'tish uchun kamera ruxsati kerak."
+        }
+      ]
+    ]
+  }
+}
